@@ -12,7 +12,7 @@ const socials = [
   { Icon: Github, href: 'https://github.com/itsvicky-dev', label: 'GitHub' },
   { Icon: Linkedin, href: 'https://linkedin.com/in/vigneswaris', label: 'LinkedIn' },
   { Icon: Instagram, href: 'https://instagram.com/im_vi.ki', label: 'Instagram' },
-  { Icon: Mail, href: 'mailto:vigneswari.coder@gmail.com', label: 'Email' },
+  { Icon: Mail, href: 'mailto:vigneswari.sp@gmail.com', label: 'Email' },
 ];
 
 const fadeUp = {

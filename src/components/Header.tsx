@@ -16,17 +16,23 @@ const Header: React.FC = () => {
       setScrolled(window.scrollY > 40);
 
       const sections = navItems.map((item) => item.toLowerCase());
-      const sectionElements = sections.map((section) => document.getElementById(section));
 
-      const currentSection = sectionElements.find((section) => {
-        if (!section) return false;
-        const rect = section.getBoundingClientRect();
-        return rect.top <= 100 && rect.bottom >= 100;
-      });
-
-      if (currentSection) {
-        setActiveSection(currentSection.id);
+      const atBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      if (atBottom) {
+        setActiveSection(sections[sections.length - 1]);
+        return;
       }
+
+      const scrollPosition = window.scrollY + 120;
+      let current = sections[0];
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= scrollPosition) {
+          current = id;
+        }
+      }
+      setActiveSection(current);
     };
 
     window.addEventListener('scroll', handleScroll);

@@ -1,9 +1,22 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Mail, Github, Linkedin, Send, MapPin, Loader2, ArrowUpRight } from 'lucide-react';
+import {
+  Github,
+  Linkedin,
+  Send,
+  MapPin,
+  Loader2,
+  ArrowUpRight,
+  Copy,
+  Check,
+  ChevronDown,
+  PenLine,
+} from 'lucide-react';
 import { toast } from 'react-toastify';
 import { useTheme } from '../context/ThemeContext';
+
+const EMAIL = 'vigneswari.sp@gmail.com';
 
 const fieldBase =
   'peer w-full border-0 border-b-2 bg-transparent px-0 py-3 text-base text-wine-900 outline-none transition-colors duration-300 placeholder:text-transparent focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 dark:text-parchment';
@@ -11,12 +24,6 @@ const fieldBase =
 const socialLinks = [
   { icon: Github, href: 'https://github.com/itsvicky-dev', label: 'GitHub' },
   { icon: Linkedin, href: 'https://www.linkedin.com/in/vigneswaris', label: 'LinkedIn' },
-  { icon: Mail, href: 'mailto:vigneswari.coder@gmail.com', label: 'Email' },
-];
-
-const contactMethods = [
-  { icon: Mail, label: 'Email', value: 'vigneswari.coder@gmail.com', href: 'mailto:vigneswari.coder@gmail.com' },
-  { icon: MapPin, label: 'Location', value: 'Tamil Nadu, India', href: undefined },
 ];
 
 const Contact: React.FC = () => {
@@ -26,11 +33,30 @@ const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const openingRef = useRef(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: '' }));
+  };
+
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopied(true);
+      toast.success('Email copied to clipboard!', {
+        position: 'top-right',
+        autoClose: 2000,
+        theme: theme === 'dark' ? 'dark' : 'light',
+      });
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard unavailable */
+    }
   };
 
   const validateForm = () => {
@@ -104,160 +130,258 @@ const Contact: React.FC = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="mb-20 text-center"
+          className="mb-14 text-center"
         >
           <p className="section-eyebrow mb-4 justify-center">Get In Touch</p>
           <h2 className="font-serif text-4xl font-bold sm:text-5xl">
-            <span className="gradient-text">Let&apos;s Create Something Amazing</span>
+            <span className="gradient-text">Got A Project In Mind?</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-wine-900/60 dark:text-stone-400">
-            Ready to bring your ideas to life? Let&apos;s discuss your next project and create digital experiences
-            that make an impact.
-          </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-14 lg:grid-cols-[1fr_1.3fr] lg:gap-0">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.15 }}
-            className="lg:pr-14"
+        {/* Giant CTA — click to email, or copy the address */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.15 }}
+          className="flex flex-col items-center justify-center gap-4 text-center sm:flex-row sm:gap-4"
+        >
+          <motion.a
+            href={`mailto:${EMAIL}`}
+            whileHover={{ scale: 1.012 }}
+            whileTap={{ scale: 0.99 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            className="group inline-flex items-center gap-4 sm:gap-5"
           >
-            <div className="space-y-1">
-              {contactMethods.map(({ icon: Icon, label, value, href }) => {
-                const Tag = href ? motion.a : motion.div;
-                return (
-                  <Tag
-                    key={label}
-                    {...(href ? { href } : {})}
-                    whileHover={{ x: 8 }}
-                    transition={{ duration: 0.3 }}
-                    className="group flex items-center gap-4 border-b border-wine-900/10 py-5 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 dark:border-white/10"
-                  >
-                    <Icon size={18} className="shrink-0 text-wine-900/40 transition-colors duration-300 group-hover:text-gold-600 dark:text-stone-500 dark:group-hover:text-gold-400" />
-                    <div>
-                      <p className="text-xs font-medium uppercase tracking-[0.15em] text-wine-900/40 dark:text-stone-500">{label}</p>
-                      <p className="relative w-fit font-semibold text-wine-900 dark:text-parchment">
-                        {value}
-                        <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-gold-500 transition-all duration-300 group-hover:w-full" />
-                      </p>
-                    </div>
-                    {href && (
-                      <ArrowUpRight
-                        size={18}
-                        className="ml-auto -translate-x-1 text-wine-900/30 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:text-gold-600 group-hover:opacity-100 dark:text-stone-600 dark:group-hover:text-gold-400"
-                      />
-                    )}
-                  </Tag>
-                );
-              })}
-            </div>
+            <span
+              className="relative inline-block whitespace-nowrap font-display leading-none tracking-tight text-black dark:text-white"
+              style={{ fontSize: 'clamp(1.35rem, 5.2vw, 3.75rem)' }}
+            >
+              {EMAIL}
+              <span className="absolute -bottom-1.5 left-0 h-[3px] w-0 bg-black transition-all duration-500 ease-out group-hover:w-full dark:bg-white sm:-bottom-2" />
+            </span>
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-black text-black transition-all duration-300 ease-out group-hover:rotate-45 group-hover:bg-black group-hover:text-white dark:border-white dark:text-white dark:group-hover:bg-white dark:group-hover:text-black sm:h-14 sm:w-14">
+              <ArrowUpRight size={20} className="sm:hidden" />
+              <ArrowUpRight size={26} className="hidden sm:block" />
+            </span>
+          </motion.a>
 
-            <h4 className="mb-4 mt-10 text-xs font-semibold uppercase tracking-[0.15em] text-wine-900/40 dark:text-stone-500">
-              Connect With Me
-            </h4>
-            <div className="flex gap-3">
-              {socialLinks.map(({ icon: Icon, href, label }) => (
-                <motion.a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  whileHover={{ scale: 1.1, y: -3 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-wine-900/25 text-wine-800 transition-colors duration-300 hover:border-gold-500 hover:bg-gold-500 hover:text-noir focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 dark:border-white/15 dark:text-stone-300 dark:hover:border-gold-400 dark:hover:bg-gold-400 dark:hover:text-noir"
-                >
-                  <Icon size={17} />
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="border-t border-wine-900/10 pt-10 dark:border-white/10 lg:border-l lg:border-t-0 lg:pl-14 lg:pt-0"
+          {/* <motion.button
+            type="button"
+            onClick={handleCopyEmail}
+            aria-label="Copy email address"
+            whileHover={{ x: 2 }}
+            whileTap={{ scale: 0.95 }}
+            className="group inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-wine-900/40 transition-colors duration-300 hover:text-black focus:outline-none focus-visible:outline-none dark:text-stone-500 dark:hover:text-white"
           >
-            <form onSubmit={handleSubmit} noValidate className="space-y-7">
-              <div className="relative">
-                <input
-                  id="name"
-                  name="name"
-                  placeholder="Your Name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className={`${fieldBase} ${errors.name ? 'border-red-400' : 'border-wine-900/10 dark:border-white/15'}`}
-                />
-                <label
-                  htmlFor="name"
-                  className="pointer-events-none absolute -top-4 left-0 text-xs font-medium text-wine-900/40 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-wine-900/40 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-gold-600 dark:text-stone-500 dark:peer-placeholder-shown:text-stone-500"
+            <AnimatePresence mode="wait" initial={false}>
+              {copied ? (
+                <motion.span
+                  key="check"
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.2 }}
+                  className="inline-flex items-center gap-1.5"
                 >
-                  Your Name
-                </label>
-                {errors.name && <p className="mt-1.5 text-xs text-red-500">{errors.name}</p>}
-              </div>
-
-              <div className="relative">
-                <input
-                  id="email"
-                  name="email"
-                  placeholder="Your Email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className={`${fieldBase} ${errors.email ? 'border-red-400' : 'border-wine-900/10 dark:border-white/15'}`}
-                />
-                <label
-                  htmlFor="email"
-                  className="pointer-events-none absolute -top-4 left-0 text-xs font-medium text-wine-900/40 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-wine-900/40 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-gold-600 dark:text-stone-500 dark:peer-placeholder-shown:text-stone-500"
+                  <Check size={14} />
+                  Copied
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="copy"
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.2 }}
+                  className="inline-flex items-center gap-1.5"
                 >
-                  Your Email
-                </label>
-                {errors.email && <p className="mt-1.5 text-xs text-red-500">{errors.email}</p>}
-              </div>
+                  <Copy size={14} />
+                  Copy
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </motion.button> */}
+        </motion.div>
 
-              <div className="relative">
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={3}
-                  placeholder="Your Message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  className={`${fieldBase} resize-none ${errors.message ? 'border-red-400' : 'border-wine-900/10 dark:border-white/15'}`}
-                />
-                <label
-                  htmlFor="message"
-                  className="pointer-events-none absolute -top-4 left-0 text-xs font-medium text-wine-900/40 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-wine-900/40 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-gold-600 dark:text-stone-500 dark:peer-placeholder-shown:text-stone-500"
-                >
-                  Your Message
-                </label>
-                {errors.message && <p className="mt-1.5 text-xs text-red-500">{errors.message}</p>}
-              </div>
+        {/* Status badge */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="mt-12 flex justify-center"
+        >
+          <div className="inline-flex items-center gap-2.5 border border-wine-900/15 px-4 py-2 dark:border-white/15">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+            </span>
+            <span className="text-xs font-medium uppercase tracking-[0.15em] text-wine-900/60 dark:text-stone-400">
+              No merge conflicts today — happy to chat
+            </span>
+          </div>
+        </motion.div>
 
-              <motion.button
-                type="submit"
-                disabled={isSubmitting}
-                whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
-                whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
-                className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+        {/* Minimal contact meta — location + socials */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="mt-14 flex flex-col items-center justify-center gap-4 text-sm text-wine-900/50 dark:text-stone-500 sm:flex-row sm:gap-4"
+        >
+          <span className="inline-flex items-center gap-2">
+            <MapPin size={15} />
+            Tamil Nadu, India
+          </span>
+
+          <span className="hidden h-1 w-1 rounded-full bg-wine-900/20 dark:bg-white/20 sm:inline-block" />
+
+          <div className="flex items-center gap-5">
+            {socialLinks.map(({ icon: Icon, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="text-wine-900/50 transition-colors duration-300 hover:text-black dark:text-stone-500 dark:hover:text-white"
               >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 size={18} className="animate-spin" />
-                    Sending Message...
-                  </>
-                ) : (
-                  <>
-                    <Send size={18} />
-                    Send Message
-                  </>
-                )}
-              </motion.button>
-            </form>
-          </motion.div>
-        </div>
+                <Icon size={17} />
+              </a>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Reveal-on-demand form */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.7, delay: 0.5 }}
+          className="mt-10 flex justify-center"
+        >
+          <motion.button
+            type="button"
+            onClick={() =>
+              setFormOpen((prev) => {
+                const next = !prev;
+                openingRef.current = next;
+                return next;
+              })
+            }
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.97 }}
+            className="group inline-flex items-center gap-2.5 border border-wine-900/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-wine-900/60 transition-colors duration-300 hover:border-black hover:text-black focus:outline-none focus-visible:outline-none dark:border-white/15 dark:text-stone-400 dark:hover:border-white dark:hover:text-white"
+          >
+            <PenLine size={14} />
+            {formOpen ? 'Hide the form' : 'Prefer writing a message instead?'}
+            <ChevronDown
+              size={14}
+              className={`transition-transform duration-300 ${formOpen ? 'rotate-180' : ''}`}
+            />
+          </motion.button>
+        </motion.div>
+
+        <AnimatePresence initial={false}>
+          {formOpen && (
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, height: 0 },
+                visible: { opacity: 1, height: 'auto' },
+              }}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              onUpdate={() => {
+                if (openingRef.current) {
+                  formRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' });
+                }
+              }}
+              className="overflow-hidden"
+            >
+              <form
+                ref={formRef}
+                onSubmit={handleSubmit}
+                noValidate
+                className="mx-auto mt-10 max-w-xl scroll-mt-28 space-y-7 pb-10"
+              >
+                <div className="relative">
+                  <input
+                    id="name"
+                    name="name"
+                    placeholder="Your Name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className={`${fieldBase} ${errors.name ? 'border-red-400' : 'border-wine-900/10 dark:border-white/15'}`}
+                  />
+                  <label
+                    htmlFor="name"
+                    className="pointer-events-none absolute -top-4 left-0 text-xs font-medium text-wine-900/40 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-wine-900/40 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-gold-600 dark:text-stone-500 dark:peer-placeholder-shown:text-stone-500"
+                  >
+                    Your Name
+                  </label>
+                  {errors.name && <p className="mt-1.5 text-xs text-red-500">{errors.name}</p>}
+                </div>
+
+                <div className="relative">
+                  <input
+                    id="email"
+                    name="email"
+                    placeholder="Your Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className={`${fieldBase} ${errors.email ? 'border-red-400' : 'border-wine-900/10 dark:border-white/15'}`}
+                  />
+                  <label
+                    htmlFor="email"
+                    className="pointer-events-none absolute -top-4 left-0 text-xs font-medium text-wine-900/40 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-wine-900/40 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-gold-600 dark:text-stone-500 dark:peer-placeholder-shown:text-stone-500"
+                  >
+                    Your Email
+                  </label>
+                  {errors.email && <p className="mt-1.5 text-xs text-red-500">{errors.email}</p>}
+                </div>
+
+                <div className="relative">
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={3}
+                    placeholder="Your Message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    className={`${fieldBase} resize-none ${errors.message ? 'border-red-400' : 'border-wine-900/10 dark:border-white/15'}`}
+                  />
+                  <label
+                    htmlFor="message"
+                    className="pointer-events-none absolute -top-4 left-0 text-xs font-medium text-wine-900/40 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-wine-900/40 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-gold-600 dark:text-stone-500 dark:peer-placeholder-shown:text-stone-500"
+                  >
+                    Your Message
+                  </label>
+                  {errors.message && <p className="mt-1.5 text-xs text-red-500">{errors.message}</p>}
+                </div>
+
+                <motion.button
+                  type="submit"
+                  disabled={isSubmitting}
+                  whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                  whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                  className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" />
+                      Sending Message...
+                    </>
+                  ) : (
+                    <>
+                      <Send size={18} />
+                      Send Message
+                    </>
+                  )}
+                </motion.button>
+              </form>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
