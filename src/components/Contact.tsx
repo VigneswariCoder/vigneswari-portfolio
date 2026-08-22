@@ -121,8 +121,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="relative overflow-hidden bg-white py-24 dark:bg-black sm:py-32">
-      <div className="glow-blob left-1/2 top-0 h-[380px] w-[600px] -translate-x-1/2 bg-wine-300/10 dark:bg-wine-700/10" />
+    <section id="contact" className="relative overflow-hidden bg-white py-24 dark:bg-black sm:py-40">
 
       <div className="relative mx-auto max-w-5xl px-6 md:px-8">
         <motion.div
@@ -204,7 +203,7 @@ const Contact: React.FC = () => {
         </motion.div>
 
         {/* Status badge */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.7, delay: 0.3 }}
@@ -216,10 +215,10 @@ const Contact: React.FC = () => {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
             </span>
             <span className="text-xs font-medium uppercase tracking-[0.15em] text-wine-900/60 dark:text-stone-400">
-              No merge conflicts today — happy to chat
+              Currently available — happy to chat
             </span>
           </div>
-        </motion.div>
+        </motion.div> */}
 
         {/* Minimal contact meta — location + socials */}
         <motion.div

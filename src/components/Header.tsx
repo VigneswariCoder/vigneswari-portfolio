@@ -56,7 +56,7 @@ const Header: React.FC = () => {
         className="fixed inset-x-0 top-4 z-[1202] px-4"
       >
         <div
-          className={`relative mx-auto flex max-w-[880px] items-center justify-between gap-3 rounded-full px-3 py-2.5 transition-all duration-500 lg:justify-center ${
+          className={`relative mx-auto hidden max-w-[880px] items-center justify-center gap-3 rounded-full px-3 py-2.5 transition-all duration-500 lg:flex ${
             scrolled
               ? 'shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_20px_45px_-18px_rgba(0,0,0,0.35)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_20px_45px_-18px_rgba(0,0,0,0.7)]'
               : 'shadow-[inset_0_1px_0_rgba(255,255,255,0.45),0_10px_30px_-18px_rgba(0,0,0,0.25)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_10px_30px_-18px_rgba(0,0,0,0.5)]'
@@ -82,7 +82,7 @@ const Header: React.FC = () => {
             V
           </a> */}
 
-          <ul className="hidden items-center gap-0.5 lg:flex">
+          <ul className="flex items-center gap-0.5">
             {navItems.map((item, index) => {
               const id = item.toLowerCase();
               const isActive = activeSection === id;
@@ -134,18 +134,23 @@ const Header: React.FC = () => {
                 </motion.span>
               </AnimatePresence>
             </button>
-
-            <button
-              onClick={() => setIsOpen((v) => !v)}
-              aria-label="Toggle menu"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 text-black transition-all duration-300 hover:border-black/30 hover:bg-white/50 dark:border-white/10 dark:text-white dark:hover:border-white/30 dark:hover:bg-white/10 lg:hidden"
-            >
-              <motion.span animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.3 }} className="flex">
-                {isOpen ? <X size={16} /> : <Menu size={16} />}
-              </motion.span>
-            </button>
           </div> */}
         </div>
+
+        {/* Mobile: hamburger only, no full-width bar */}
+        <button
+          onClick={() => setIsOpen((v) => !v)}
+          aria-label="Toggle menu"
+          className={`ml-auto flex h-11 w-11 items-center justify-center rounded-full border backdrop-blur-2xl backdrop-saturate-150 transition-all duration-300 lg:hidden ${
+            scrolled
+              ? 'border-black/10 bg-white/60 text-black shadow-[0_10px_30px_-15px_rgba(0,0,0,0.35)] dark:border-white/10 dark:bg-white/[0.08] dark:text-white'
+              : 'border-black/[0.08] bg-white/40 text-black shadow-[0_8px_24px_-15px_rgba(0,0,0,0.25)] dark:border-white/[0.08] dark:bg-white/[0.06] dark:text-white'
+          }`}
+        >
+          <motion.span animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.3 }} className="flex">
+            {isOpen ? <X size={18} /> : <Menu size={18} />}
+          </motion.span>
+        </button>
       </motion.header>
 
       <AnimatePresence>
