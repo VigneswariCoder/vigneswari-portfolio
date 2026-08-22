@@ -6,6 +6,7 @@ import About from '../components/About';
 import Skills from '../components/Skills';
 import Contact from '../components/Contact';
 import Projects from '../components/Projects';
+import Contributions from '../components/Contributions';
 import Highlights from '../components/Highlights';
 import Process from '../components/Process';
 import Insights from '../components/Insights';
@@ -32,6 +33,7 @@ function Home() {
         <Highlights />
         <Process />
         <Projects />
+        <Contributions />
         <Insights />
         <Contact />
       </main>

@@ -50,15 +50,28 @@ const Header: React.FC = () => {
         className="fixed inset-x-0 top-4 z-[1202] px-4"
       >
         <div
-          className={`mx-auto flex max-w-[800px] items-center justify-center gap-4 rounded-full border px-3 py-2.5 transition-all duration-500 ${
+          className={`relative mx-auto flex max-w-[880px] items-center justify-between gap-3 rounded-full px-3 py-2.5 transition-all duration-500 lg:justify-center ${
             scrolled
-              ? 'border-black/10 bg-white/90 shadow-[0_10px_40px_-14px_rgba(0,0,0,0.25)] backdrop-blur-md dark:border-white/10 dark:bg-black/85'
-              : 'border-black/10 bg-white/70 backdrop-blur-sm dark:border-white/10 dark:bg-black/50'
+              ? 'shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_20px_45px_-18px_rgba(0,0,0,0.35)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_20px_45px_-18px_rgba(0,0,0,0.7)]'
+              : 'shadow-[inset_0_1px_0_rgba(255,255,255,0.45),0_10px_30px_-18px_rgba(0,0,0,0.25)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_10px_30px_-18px_rgba(0,0,0,0.5)]'
           }`}
         >
+          {/* matte glass layer */}
+          <div
+            className={`pointer-events-none absolute inset-0 -z-10 rounded-full border backdrop-blur-2xl backdrop-saturate-150 transition-all duration-500 ${
+              scrolled
+                ? 'border-black/10 bg-white/60 dark:border-white/10 dark:bg-white/[0.06]'
+                : 'border-black/[0.08] bg-white/40 dark:border-white/[0.08] dark:bg-white/[0.04]'
+            }`}
+            style={{
+              backgroundImage:
+                'linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 45%)',
+            }}
+          />
+
           {/* <a
             href="#home"
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-black text-sm font-black text-white dark:bg-white dark:text-black"
+            className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-black text-sm font-black text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)] dark:bg-white dark:text-black lg:absolute lg:left-3"
           >
             V
           </a> */}
@@ -85,7 +98,7 @@ const Header: React.FC = () => {
                     {isActive && (
                       <motion.span
                         layoutId="nav-active-pill"
-                        className="absolute inset-0 -z-10 rounded-full bg-black dark:bg-white"
+                        className="absolute inset-0 -z-10 rounded-full bg-black shadow-[inset_0_1px_1px_rgba(255,255,255,0.25),0_4px_14px_-4px_rgba(0,0,0,0.5)] dark:bg-white"
                         transition={{ type: 'spring', stiffness: 400, damping: 32 }}
                       />
                     )}
@@ -96,11 +109,11 @@ const Header: React.FC = () => {
             })}
           </ul>
 
-          {/* <div className="flex items-center gap-2">
+          {/* <div className="relative z-10 flex items-center gap-2 lg:absolute lg:right-3">
             <button
               onClick={toggleTheme}
               aria-label="Toggle theme"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-black/15 text-black transition-all duration-300 hover:border-black dark:border-white/15 dark:text-white dark:hover:border-white"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 text-black transition-all duration-300 hover:border-black/30 hover:bg-white/50 dark:border-white/10 dark:text-white dark:hover:border-white/30 dark:hover:bg-white/10"
             >
               <AnimatePresence mode="wait" initial={false}>
                 <motion.span
@@ -119,7 +132,7 @@ const Header: React.FC = () => {
             <button
               onClick={() => setIsOpen((v) => !v)}
               aria-label="Toggle menu"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-black/15 text-black transition-all duration-300 hover:border-black dark:border-white/15 dark:text-white lg:hidden"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 text-black transition-all duration-300 hover:border-black/30 hover:bg-white/50 dark:border-white/10 dark:text-white dark:hover:border-white/30 dark:hover:bg-white/10 lg:hidden"
             >
               <motion.span animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.3 }} className="flex">
                 {isOpen ? <X size={16} /> : <Menu size={16} />}
@@ -132,7 +145,7 @@ const Header: React.FC = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed inset-0 z-[1200] flex flex-col bg-white dark:bg-black lg:hidden"
+            className="fixed inset-0 z-[1200] flex flex-col bg-white/90 backdrop-blur-2xl backdrop-saturate-150 dark:bg-black/90 lg:hidden"
             initial={{ clipPath: 'circle(0% at calc(100% - 2.5rem) 2.5rem)' }}
             animate={{ clipPath: 'circle(150% at calc(100% - 2.5rem) 2.5rem)' }}
             exit={{ clipPath: 'circle(0% at calc(100% - 2.5rem) 2.5rem)' }}

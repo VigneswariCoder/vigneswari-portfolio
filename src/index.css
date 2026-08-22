@@ -18,6 +18,11 @@
     @apply bg-black/20 text-inherit dark:bg-white/25;
   }
 
+  /* html.has-custom-cursor,
+  html.has-custom-cursor * {
+    cursor: none !important;
+  } */
+
   *:focus-visible {
     @apply outline-none ring-1 ring-black ring-offset-2 ring-offset-parchment dark:ring-white dark:ring-offset-noir;
   }
@@ -36,7 +41,7 @@
 }
 
 @layer components {
-  /* Refined surface used for cards/panels — hairline border, soft shadow, no heavy glass blur */
+  /* Refined surface used for cards/panels hairline border, soft shadow, no heavy glass blur */
   .glass-card {
     @apply relative border border-wine-900/10 bg-white shadow-[0_8px_40px_-16px_rgba(0,0,0,0.12)]
            dark:border-white/10 dark:bg-neutral-950 dark:shadow-[0_8px_40px_-16px_rgba(0,0,0,0.9)];

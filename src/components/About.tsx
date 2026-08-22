@@ -16,11 +16,11 @@ const timelineData: TimelineEntry[] = [
   {
     icon: <Trophy size={20} className="text-gold-600 dark:text-gold-400" />,
     title: 'Software Developer',
-    subtitle: 'Wele Intellitech — AI-Powered Learning Platform',
+    subtitle: 'Wele Intellitech AI-Powered Learning Platform',
     duration: 'Nov 2025 – Present',
     current: true,
     achievements: [
-      'Build AI-powered features — including intelligent content assistance and personalized recommendations — for a next-generation learning management system (LMS) used by learners and instructors.',
+      'Build AI-powered features including intelligent content assistance and personalized recommendations for a next-generation learning management system (LMS) used by learners and instructors.',
       'Design and develop responsive React/Next.js dashboards for learner and admin portals, turning complex LMS workflows (course delivery, quizzes, progress tracking) into clean, intuitive interfaces.',
       'Architect and maintain RESTful APIs and backend services in Node.js/Express, integrating AI models and third-party services to power real-time platform functionality.',
       'Deploy and manage application infrastructure on cloud platforms, collaborating cross-functionally with product and design teams in an agile environment to ship features end-to-end.',
@@ -30,7 +30,7 @@ const timelineData: TimelineEntry[] = [
   {
     icon: <Code size={20} className="text-wine-800 dark:text-parchment" />,
     title: 'Jr Software Engineer',
-    subtitle: 'HEPL — Hemas Enterprise Private Limited',
+    subtitle: 'HEPL Hemas Enterprise Private Limited',
     duration: '2.5 Years',
     achievements: [
       'Developed and maintained enterprise-grade web applications on the MERN stack and Java Spring Boot, supporting systems used across cross-functional business units.',
@@ -46,8 +46,9 @@ const timelineData: TimelineEntry[] = [
     subtitle: 'Meta • IBM • CK-Edge',
     duration: 'Completed',
     achievements: [
-      'Earned industry-recognized certifications from Meta, IBM, and CK-Edge, covering front-end engineering, full-stack JavaScript, and modern software development practices.',
-      'Continuously invest in professional development to stay current with evolving frontend, backend, and AI tooling.',
+      'IBM Full-Stack JavaScript Developer Coursera · https://coursera.org/share/59e93b393901649a62f2e0a886c662a2',
+      'Meta Front-End Developer Coursera · https://coursera.org/share/ee02158f80fd5c1b0b4dcf932660eb3e',
+      'CK-Edge Full-Stack Development Industry certification covering modern full-stack practices.',
     ],
     skills: ['Meta Front-End', 'IBM Full-Stack JavaScript', 'CK-Edge Full-Stack', 'Continuous Learning'],
   },
@@ -57,7 +58,7 @@ const timelineData: TimelineEntry[] = [
   //   subtitle: 'Personal Engineering Work',
   //   duration: '10+ Projects',
   //   achievements: [
-  //     'Designed and shipped 10+ independent full-stack applications — from social platforms to e-commerce systems — to sharpen production-grade engineering skills outside of work.',
+  //     'Designed and shipped 10+ independent full-stack applications from social platforms to e-commerce systems to sharpen production-grade engineering skills outside of work.',
   //     'Applied performance optimization, clean architecture, and modern UI/UX principles to deliver polished, real-world-ready products end-to-end.',
   //   ],
   //   skills: ['MERN Stack', 'API Design', 'UI/UX Design', 'Performance Optimization', 'Client Relations'],
@@ -67,7 +68,7 @@ const timelineData: TimelineEntry[] = [
 const stats = [
   { label: 'Years of Experience', value: '3+', icon: <TrendingUp size={16} /> },
   { label: 'Projects Delivered', value: '10+', icon: <Target size={16} /> },
-  { label: 'Technologies Mastered', value: '20+', icon: <Layers size={16} /> },
+  { label: 'Stacks & Tools', value: 'MERN', icon: <Layers size={16} /> },
   { label: 'Professional Certifications', value: '3', icon: <Award size={16} /> },
 ];
 
@@ -130,11 +131,25 @@ function TimelineItem({ entry, index, isLast }: { entry: TimelineEntry; index: n
         <p className="mb-3 font-serif text-gold-700 dark:text-gold-400">{entry.subtitle}</p>
 
         <ul className="mb-4 space-y-1.5 pl-5">
-          {entry.achievements.map((point, idx) => (
-            <li key={idx} className="list-disc text-sm leading-relaxed text-wine-900/60 marker:text-gold-500 dark:text-stone-400 sm:text-base">
-              {point}
-            </li>
-          ))}
+          {entry.achievements.map((point, idx) => {
+            const urlMatch = point.match(/https?:\/\/\S+/);
+            const label = urlMatch ? point.replace(/\s*·\s*https?:\/\/\S+/, '') : point;
+            return (
+              <li key={idx} className="list-disc text-sm leading-relaxed text-wine-900/60 marker:text-gold-500 dark:text-stone-400 sm:text-base">
+                {label}
+                {urlMatch && (
+                  <a
+                    href={urlMatch[0]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-2 inline-flex items-center gap-1 text-gold-600 underline underline-offset-2 hover:opacity-75 dark:text-gold-400"
+                  >
+                    View Certificate ↗
+                  </a>
+                )}
+              </li>
+            );
+          })}
         </ul>
 
         <div className="flex flex-wrap gap-2">
@@ -170,8 +185,8 @@ const About: React.FC = () => {
             About <span className="gradient-text">Me</span>
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-wine-900/60 dark:text-stone-400 sm:text-lg">
-            Software Developer with 3+ years of experience building full-stack and AI-powered web applications — from
-            enterprise systems to a modern learning management platform — using React, Node.js, and cloud-integrated
+            Software Developer with 3+ years of experience building full-stack and AI-powered web applications from
+            enterprise systems to a modern learning management platform using React, Node.js, and cloud-integrated
             architectures.
           </p>
         </motion.div>

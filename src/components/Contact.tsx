@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useTheme } from '../context/ThemeContext';
 
 const fieldBase =
-  'peer w-full border-0 border-b-2 bg-transparent px-0 py-3 text-base text-wine-900 outline-none transition-colors duration-300 placeholder:text-transparent dark:text-parchment';
+  'peer w-full border-0 border-b-2 bg-transparent px-0 py-3 text-base text-wine-900 outline-none transition-colors duration-300 placeholder:text-transparent focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 dark:text-parchment';
 
 const socialLinks = [
   { icon: Github, href: 'https://github.com/itsvicky-dev', label: 'GitHub' },
@@ -132,7 +132,7 @@ const Contact: React.FC = () => {
                     {...(href ? { href } : {})}
                     whileHover={{ x: 8 }}
                     transition={{ duration: 0.3 }}
-                    className="group flex items-center gap-4 border-b border-wine-900/10 py-5 first:border-t dark:border-white/10"
+                    className="group flex items-center gap-4 border-b border-wine-900/10 py-5 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 dark:border-white/10"
                   >
                     <Icon size={18} className="shrink-0 text-wine-900/40 transition-colors duration-300 group-hover:text-gold-600 dark:text-stone-500 dark:group-hover:text-gold-400" />
                     <div>
@@ -166,7 +166,7 @@ const Contact: React.FC = () => {
                   aria-label={label}
                   whileHover={{ scale: 1.1, y: -3 }}
                   whileTap={{ scale: 0.95 }}
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-wine-900/25 text-wine-800 transition-colors duration-300 hover:border-gold-500 hover:bg-gold-500 hover:text-noir dark:border-white/15 dark:text-stone-300 dark:hover:border-gold-400 dark:hover:bg-gold-400 dark:hover:text-noir"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-wine-900/25 text-wine-800 transition-colors duration-300 hover:border-gold-500 hover:bg-gold-500 hover:text-noir focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 dark:border-white/15 dark:text-stone-300 dark:hover:border-gold-400 dark:hover:bg-gold-400 dark:hover:text-noir"
                 >
                   <Icon size={17} />
                 </motion.a>
@@ -188,7 +188,7 @@ const Contact: React.FC = () => {
                   placeholder="Your Name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`${fieldBase} ${errors.name ? 'border-red-400' : 'border-wine-900/25 focus:border-gold-500 dark:border-white/15'}`}
+                  className={`${fieldBase} ${errors.name ? 'border-red-400' : 'border-wine-900/10 dark:border-white/15'}`}
                 />
                 <label
                   htmlFor="name"
@@ -206,7 +206,7 @@ const Contact: React.FC = () => {
                   placeholder="Your Email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`${fieldBase} ${errors.email ? 'border-red-400' : 'border-wine-900/25 focus:border-gold-500 dark:border-white/15'}`}
+                  className={`${fieldBase} ${errors.email ? 'border-red-400' : 'border-wine-900/10 dark:border-white/15'}`}
                 />
                 <label
                   htmlFor="email"
@@ -225,7 +225,7 @@ const Contact: React.FC = () => {
                   placeholder="Your Message"
                   value={formData.message}
                   onChange={handleChange}
-                  className={`${fieldBase} resize-none ${errors.message ? 'border-red-400' : 'border-wine-900/25 focus:border-gold-500 dark:border-white/15'}`}
+                  className={`${fieldBase} resize-none ${errors.message ? 'border-red-400' : 'border-wine-900/10 dark:border-white/15'}`}
                 />
                 <label
                   htmlFor="message"
@@ -241,7 +241,7 @@ const Contact: React.FC = () => {
                 disabled={isSubmitting}
                 whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
                 whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
-                className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60"
+                className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
               >
                 {isSubmitting ? (
                   <>

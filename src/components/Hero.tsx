@@ -27,10 +27,10 @@ const Hero: React.FC = () => {
       className="relative flex min-h-screen items-center overflow-hidden bg-white pb-20 pt-32 dark:bg-black"
     >
       {/* Ambient background blobs */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {/* <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 h-[600px] w-[600px] rounded-full bg-gradient-to-br from-stone-200/60 to-transparent blur-3xl dark:from-white/5" />
         <div className="absolute -bottom-20 -left-20 h-[400px] w-[400px] rounded-full bg-gradient-to-tr from-stone-100/80 to-transparent blur-3xl dark:from-white/3" />
-      </div>
+      </div> */}
       <div className="relative z-10 mx-auto w-full max-w-5xl px-6 md:px-8">
         <motion.h1
           {...fadeUp}
@@ -46,7 +46,7 @@ const Hero: React.FC = () => {
               transition={{ delay: 0.3, duration: 0.6 }}
               className="shrink-0"
             >
-              <div className="bg-white dark:border-neutral-800 dark:bg-neutral-800">
+              <div>
                 <img
                   src={heroImg}
                   alt="Vigneswari"
@@ -66,7 +66,7 @@ const Hero: React.FC = () => {
           transition={{ delay: 0.3, duration: 0.6 }}
           className="mt-8 max-w-lg text-base leading-relaxed text-wine-900/60 dark:text-stone-400 sm:text-lg"
         >
-          I build full-stack and AI-powered web applications — <strong className="font-semibold text-black dark:text-white">3+ years</strong> shipping
+          I build full-stack and AI-powered web applications <strong className="font-semibold text-black dark:text-white">3+ years</strong> shipping
           production software with React, Node.js, and cloud-native architectures.
         </motion.p>
 

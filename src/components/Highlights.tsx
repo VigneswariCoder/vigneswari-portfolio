@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Bot, Layers, Rocket, Users, LucideIcon } from 'lucide-react';
 
 interface Highlight {
@@ -15,14 +15,14 @@ const highlights: Highlight[] = [
     tag: 'AI Engineering',
     title: 'AI-Powered Engineering',
     description:
-      'Building AI-driven features — content assistance, recommendations, and conversational tools — into a production learning management platform, bridging modern LLM capabilities with real-world product needs.',
+      'Building AI-driven features content assistance, recommendations, and conversational tools into a production learning management platform, bridging modern LLM capabilities with real-world product needs.',
   },
   {
     icon: Layers,
     tag: 'Full-Stack',
     title: 'Full-Stack Ownership',
     description:
-      '3+ years shipping complete features end-to-end — from React/Next.js interfaces to Node.js APIs — across enterprise systems, an LMS platform, and 10+ independent projects.',
+      '3+ years shipping complete features end-to-end from React/Next.js interfaces to Node.js APIs across enterprise systems, an LMS platform, and 10+ independent projects.',
   },
   {
     icon: Users,
@@ -79,9 +79,7 @@ function AccordionPanel({
       </div>
 
       <div
-        className={`mt-4 flex flex-1 flex-col overflow-hidden ${
-          isActive ? 'justify-end' : 'items-center justify-center'
-        }`}
+        className="relative mt-4 flex-1 overflow-hidden"
         style={
           isActive
             ? undefined
@@ -92,26 +90,35 @@ function AccordionPanel({
               }
         }
       >
-        {isActive ? (
-          <>
-            <motion.p
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              transition={{ duration: 0.35, delay: 0.15 }}
-              className="mb-3.5 overflow-hidden text-sm leading-relaxed text-white/70 dark:text-black/70"
+        <AnimatePresence initial={false}>
+          {isActive ? (
+            <motion.div
+              key="active"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, delay: 0.2, ease: 'easeInOut' }}
+              className="absolute inset-x-0 bottom-0"
             >
-              {highlight.description}
-            </motion.p>
-            <h3 className="text-2xl font-bold leading-tight text-white dark:text-black">{highlight.title}</h3>
-          </>
-        ) : (
-          <h3
-            className="whitespace-nowrap text-2xl font-black uppercase leading-none tracking-[0.15em] text-black/25 transition-colors duration-500 group-hover:text-black/40 dark:text-white/25 dark:group-hover:text-white/40 sm:text-3xl"
-            style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
-          >
-            {highlight.tag}
-          </h3>
-        )}
+              <p className="mb-3.5 text-sm leading-relaxed text-white/70 dark:text-black/70">
+                {highlight.description}
+              </p>
+              <h3 className="text-2xl font-bold leading-tight text-white dark:text-black">{highlight.title}</h3>
+            </motion.div>
+          ) : (
+            <motion.h3
+              key="inactive"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="absolute inset-0 flex items-center justify-center whitespace-nowrap text-2xl font-black uppercase leading-none tracking-[0.15em] text-black/25 transition-colors duration-500 group-hover:text-black/40 dark:text-white/25 dark:group-hover:text-white/40 sm:text-3xl"
+              style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+            >
+              {highlight.tag}
+            </motion.h3>
+          )}
+        </AnimatePresence>
       </div>
     </motion.div>
   );

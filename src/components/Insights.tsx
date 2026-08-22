@@ -81,7 +81,7 @@ export default function Insights() {
             Notes & <span className="gradient-text">Articles</span>
           </h2>
           <p className="mt-5 text-wine-900/60 dark:text-stone-400">
-            Writing on AI integration, full-stack architecture, and production engineering — drafts in progress
+            Writing on AI integration, full-stack architecture, and production engineering drafts in progress
           </p>
         </motion.div>
 
